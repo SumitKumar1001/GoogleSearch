@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masai</title>
+    <style>
+        button {
+            width: 375px;
+            height: 49px;
+            background-color: yellow;
+            border: none;
+            margin-top: 4%;
+        }
+
+        #result {
+
+            text-align: center;
+
+        }
+
+        .head {
+            color: rgb(46, 38, 38);
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center;text-align: center;">
+        <div>
+            <img style="height: 80px; width: 100px;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQihB7wXbLM7J8tnY37sdlqurcXYVhokUvckQ&usqp=CAU"
+                alt="">
+            <br>
+            <input type="text" name="" id="search">
+            <div><button onclick="shoeFetch()">Search</button></div>
+        </div>
+    </div>
+
+    <div id="result">
+
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    async function show() {
+            let d = document.getElementById('search').value
+            let res = await fetch(` http://api.serpstack.com/search?access_key=d75debc5333e83ea5ff1e8483f5fed94&query=${d}`)
+            let data = await res.json()
+            console.log(data);
+            return data;
+
+        }
+
+        async function shoeFetch() {
+            let info = await show()
+            append(info)
+        }
+
+
+
+        function append(e) {
+            let disp = document.getElementById('result')
+            disp.innerHTML = null;
+            let d = e.organic_results
+
+            head = document.createElement('h1')
+            head.innerHTML = e.knowledge_graph.description
+            head.setAttribute('class', 'head')
+
+            disp.append(head);
+
+
+
+
+
+            d.forEach(res => {
+
+                h1 = document.createElement('h1')
+                h1.innerHTML = res.title
+                br = document.createElement('br');
+                link = document.createElement('a');
+                link.innerHTML = res.url
+                link.setAttribute('href', res.url)
+                p = document.createElement('p')
+                p.innerHTML = res.snippet
+                disp.append(h1, br, link, p)
+            });
+        }
+
+</script>
